@@ -1,6 +1,9 @@
 
-var latitude = "";
-var longitude = "";
+let latitude = "";
+let longitude = "";
+let markers = [];
+let map;
+let bounds;
 
 $(document).ready(function() {
 
@@ -46,7 +49,7 @@ function getCityDetails(cityName) {
                 getStations(latitude, longitude);
 
             } else {
-                alert("City not found!")
+                alert("City not found!");
             }
         });
     }
@@ -105,6 +108,12 @@ function getStations(latitude, longitude) {
                     });
                 }
             });
+
+            //it'll cover all the markers
+            map.fitBounds(bounds);  
+
+            //then center the map
+            map.panToBounds(bounds);     
         });
     }
 }
@@ -121,6 +130,9 @@ function addMarkerToTheMap(station) {
         lng: station.AddressInfo.Longitude
     };
 
+    //set markers bounds for each marker
+    bounds.extend(new google.maps.LatLng(myLatLng));
+
     //create markers using station's latitude and longitude
     const marker = new google.maps.Marker({
       position: myLatLng,
@@ -128,8 +140,8 @@ function addMarkerToTheMap(station) {
       title: station.AddressInfo.Title
     });
 
-    //set marker on map
-    marker.setMap(map);
+    //add each marker to the markers Array
+    markers.push(marker);
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
@@ -147,7 +159,6 @@ function addMarkerToTheMap(station) {
 
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
-var map;
 
 //Function to autofill cities as you type
 //Source: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
@@ -157,32 +168,41 @@ function initAutocomplete() {
       zoom: 5,
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
+    
+    //set map's min and max zoom limit 
+    map.setOptions({ minZoom: 3, maxZoom: 17 });
+
     // Create search box
     const input = document.getElementById("auto-input");
     const searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.LEFT].push(input);
+
     // Take searchbox results and pass it to map.
     map.addListener("bounds_changed", () => {
       searchBox.setBounds(map.getBounds());
     });
-    // let markers = [];
+
     // Added event listener so that when user selects a place from list of places
     //more info is provided for that particular place.
     searchBox.addListener("places_changed", () => {
       const places = searchBox.getPlaces();
 
       if (places.length == 0) {
+          alert("There is no such place! Please try again!")
         return;
       }
-    //   // Clear out the old markers.
-    //   markers.forEach((marker) => {
-    //     marker.setMap(null);
-    //   });
-    //   markers = [];
-    //   // For each place, get the icon, name and location.
-      const bounds = new google.maps.LatLngBounds();
+
+      // Clear out the old markers.
+      markers.forEach((marker) => {
+        marker.setMap(null);
+      });
+      markers = [];
+      bounds  = new google.maps.LatLngBounds();
+
+      //interate throw all the places
       places.forEach((place) => {
 
+        //get the selected place in place input parameter
           console.log("address" + place.formatted_address);
 
           if(place.formatted_address !== "") {
@@ -190,6 +210,5 @@ function initAutocomplete() {
             getCityDetails(encodedCity);
           }
       });
-      map.fitBounds(bounds);
     });
   }

@@ -1,22 +1,23 @@
 #map {
-    height: 100%;
+  height: 100%;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 input {
-    padding: 10px;
-    margin-left: 10px;
-    padding-right: 200px;
+  padding: 10px;
+  margin-left: 10px;
+  padding-right: 200px;
 }
 
 #over-map {
-    position: absolute;
-    top: 45px;
-    left: 10px;
-    z-index: 99;
+  position: absolute;
+  top: 45px;
+  left: 10px;
+  z-index: 99;
 }
