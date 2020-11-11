@@ -3,6 +3,7 @@ let latitude = "";
 let longitude = "";
 let markers = [];
 let map;
+let bounds;
 
 $(document).ready(function() {
 
@@ -107,6 +108,12 @@ function getStations(latitude, longitude) {
                 //     });
                 // }
             });
+
+            //it'll cover all the markers
+            map.fitBounds(bounds);  
+
+            //then center the map
+            map.panToBounds(bounds);     
         });
     }
 }
@@ -122,6 +129,9 @@ function addMarkerToTheMap(station) {
         lat: station.AddressInfo.Latitude, 
         lng: station.AddressInfo.Longitude 
     };
+
+    //set markers bounds for each marker
+    bounds.extend(new google.maps.LatLng(myLatLng));
 
     //create markers using station's latitude and longitude
     const marker = new google.maps.Marker({
@@ -187,8 +197,9 @@ function initAutocomplete() {
         marker.setMap(null);
       });
       markers = [];
+      bounds  = new google.maps.LatLngBounds();
 
-      //interate throw all th places
+      //interate throw all the places
       places.forEach((place) => {
 
         //get the selected place in place input parameter
