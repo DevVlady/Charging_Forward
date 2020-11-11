@@ -1,16 +1,22 @@
 
-var latitude = ""; 
-var longitude = ""; 
+var latitude = "";
+var longitude = "";
 
-// $(document).ready(function() {
+$(document).ready(function() {
 
-//     $("#search-button").on("click", function() {
-//         var cityName = $("#auto-input").val().trim();
+    //Search button click
+    $("#search-button").on("click", function() {
 
-//         var encodedCity = encodeURI(cityName);
-//         getCityDetails(encodedCity);
-//     });
-// });
+        //grab the auto-input value
+        var cityName = $("#auto-input").val().trim();
+
+        //encode it
+        var encodedCity = encodeURI(cityName);
+
+        //passing it as a parameter in getCityDetails function
+        getCityDetails(encodedCity);
+    });
+});
 
 function getCityDetails(cityName) {
 
@@ -19,7 +25,7 @@ function getCityDetails(cityName) {
     } else {
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
-        console.log("city url " + queryUrl); 
+        console.log("city url " + queryUrl);
 
         $.ajax({
             url: queryUrl,
@@ -28,12 +34,15 @@ function getCityDetails(cityName) {
             // console.log("city detail " + response);
 
             if(response.results.length > 0) {
+
+                //get the each station's latitude and longitude 
                 latitude = response.results[0].locations[0].latLng.lat;
                 longitude = response.results[0].locations[0].latLng.lng;
 
                 console.log("latitude " + latitude);
                 console.log("longitude " + longitude);
 
+                //pass it to the getStation function
                 getStations(latitude, longitude);
 
             } else {
@@ -69,6 +78,7 @@ function getStations(latitude, longitude) {
                     console.log("Longitude: ", station.AddressInfo.Longitude);
                     console.log("--------------------------------------");    
 
+                    //pass the station data to create the marker on map to the addMarkerToTheMap function
                     addMarkerToTheMap(station);
                 }
 
@@ -95,7 +105,7 @@ function getStations(latitude, longitude) {
                 //     });
                 // }
             });
-        });    
+        });
     }
 }
 
@@ -105,23 +115,30 @@ function addMarkerToTheMap(station) {
 
     // console.log("Station: ", station);
 
+    //create myLatLng const to set latitude and longitude value and pass this const to marker's position property
     const myLatLng = { 
         lat: station.AddressInfo.Latitude, 
         lng: station.AddressInfo.Longitude 
     };
+
+    //create markers using station's latitude and longitude
     const marker = new google.maps.Marker({
       position: myLatLng,
       map,
       title: station.AddressInfo.Title
     });  
+
+    //set marker on map
     marker.setMap(map);
 
-    var infowindow = new google.maps.InfoWindow();
+    //get the infoWindow fo each marker
+    var infoWindow = new google.maps.InfoWindow();
 
+    //when marker is click fill out staion details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
-          infowindow.setContent(station.AddressInfo.Title);
-          infowindow.open(map, marker);
+            infoWindow.setContent(station.AddressInfo.Title);
+            infoWindow.open(map, marker);
         }
     })(marker));
 }
@@ -136,8 +153,9 @@ var map;
 function initAutocomplete() {
      map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
-      zoom: 10,
-      mapTypeId: "roadmap",
+      zoom: 5,
+      types: ["gas"],
+      mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
     // Create search box
     const input = document.getElementById("auto-input");
@@ -169,7 +187,7 @@ function initAutocomplete() {
 
           if(place.formatted_address !== "") {
             var encodedCity = encodeURI(place.formatted_address);
-            getCityDetails(encodedCity);  
+            getCityDetails(encodedCity);
           }
       });
       map.fitBounds(bounds);
