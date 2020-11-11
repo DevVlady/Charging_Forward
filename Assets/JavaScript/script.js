@@ -1,6 +1,6 @@
 
-var latitude = ""; 
-var longitude = ""; 
+var latitude = "";
+var longitude = "";
 
 // $(document).ready(function() {
 
@@ -19,7 +19,7 @@ function getCityDetails(cityName) {
     } else {
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
-        console.log("city url " + queryUrl); 
+        console.log("city url " + queryUrl);
 
         $.ajax({
             url: queryUrl,
@@ -67,7 +67,7 @@ function getStations(latitude, longitude) {
                     console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
                     console.log("Latitude: ", station.AddressInfo.Latitude);
                     console.log("Longitude: ", station.AddressInfo.Longitude);
-                    console.log("--------------------------------------");    
+                    console.log("--------------------------------------");
                 }
 
                 console.log("Connections:", station.Connections);
@@ -78,7 +78,7 @@ function getStations(latitude, longitude) {
                         console.log("==============");
                         if(connection.CurrentType !== null) {
                             console.log("Current Title: ", connection.CurrentType.Title);
-                            console.log("Current Description: ", connection.CurrentType.Description);    
+                            console.log("Current Description: ", connection.CurrentType.Description);
                         }
                         if(connection.Voltage !== null) {
                             console.log("Voltage: ", connection.Voltage);
@@ -93,7 +93,7 @@ function getStations(latitude, longitude) {
                     });
                 }
             });
-        });    
+        });
     }
 }
 //This will display the map on our page using
@@ -106,7 +106,8 @@ function initAutocomplete() {
     const map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
-      mapTypeId: "roadmap",
+      types: ["gas"],
+      mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
     // Create search box
     const input = document.getElementById("auto-input");
@@ -138,35 +139,35 @@ function initAutocomplete() {
 
           if(place.formatted_address !== "") {
             var encodedCity = encodeURI(place.formatted_address);
-            getCityDetails(encodedCity);  
+            getCityDetails(encodedCity);
           }
-  
-        // if (!place.geometry) {
-        //   console.log("Unknown places");
-        //   return;
-        // }
-        // const icon = {
-        //   url: place.icon,
-        //   size: new google.maps.Size(71, 71),
-        //   origin: new google.maps.Point(0, 0),
-        //   anchor: new google.maps.Point(17, 34),
-        //   scaledSize: new google.maps.Size(25, 25),
-        // };
-        // // Create a marker for each place.
-        // markers.push(
-        //   new google.maps.Marker({
-        //     map,
-        //     icon,
-        //     title: place.name,
-        //     position: place.geometry.location,
-        //   })
-        // );
 
-        // if (place.geometry.viewport) {
-        //   bounds.union(place.geometry.viewport);
-        // } else {
-        //   bounds.extend(place.geometry.location);
-        // }
+        if (!place.geometry) {
+          console.log("Unknown places");
+          return;
+        }
+        const icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25),
+        };
+        // Create a marker for each place.
+        markers.push(
+          new google.maps.Marker({
+            map,
+            icon,
+            title: place.name,
+            position: place.geometry.location,
+          })
+        );
+
+        if (place.geometry.viewport) {
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
       });
       map.fitBounds(bounds);
     });

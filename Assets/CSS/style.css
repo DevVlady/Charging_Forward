@@ -11,4 +11,13 @@ html, body {
 input {
     padding: 10px;
     margin-left: 10px;
+    padding-right: 200px;
+}
+
+
+#over-map {
+    position: absolute;
+    top: 45px;
+    left: 10px;
+    z-index: 99;
 }

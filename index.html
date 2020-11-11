@@ -6,6 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="Description" content="Enter your description here"/>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
 <link rel="stylesheet" href="./Assets/CSS/style.css">
 <title>Charging Station Locater</title>
@@ -16,10 +17,14 @@
         <h5></h5>
     </header>
 
-    <input type="text" placeholder="Search city" id="auto-input">
-
-
     <div id="map"></div>
+    <div id="over-map">
+        <input type="text" placeholder="Search city" id="auto-input">
+        <button class="button is-link" id="search-button">Search</button>
+    </div>
+
+
+
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrgcunLFFPhiJF-MO0qFEcIKxG_djnvaw&callback=initAutocomplete&libraries=places&v=weekly""></script>
