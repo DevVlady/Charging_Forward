@@ -2,15 +2,21 @@
 var latitude = "";
 var longitude = "";
 
-// $(document).ready(function() {
+$(document).ready(function() {
 
-//     $("#search-button").on("click", function() {
-//         cityName = $("#search-value").val().trim();
+    //Search button click
+    $("#search-button").on("click", function() {
 
-//         var encodedCity = encodeURI(cityName);
-//         getCityDetails(encodedCity);
-//     });
-// });
+        //grab the auto-input value
+        var cityName = $("#auto-input").val().trim();
+
+        //encode it
+        var encodedCity = encodeURI(cityName);
+
+        //passing it as a parameter in getCityDetails function
+        getCityDetails(encodedCity);
+    });
+});
 
 function getCityDetails(cityName) {
 
@@ -28,12 +34,15 @@ function getCityDetails(cityName) {
             // console.log("city detail " + response);
 
             if(response.results.length > 0) {
+
+                //get the each station's latitude and longitude 
                 latitude = response.results[0].locations[0].latLng.lat;
                 longitude = response.results[0].locations[0].latLng.lng;
 
                 console.log("latitude " + latitude);
                 console.log("longitude " + longitude);
 
+                //pass it to the getStation function
                 getStations(latitude, longitude);
 
             } else {
@@ -48,7 +57,7 @@ function getStations(latitude, longitude) {
     if(latitude === "" || longitude === "") {
         alert("Please type address to get station information");
     } else {
-        var queryUrl = "https://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
+        var queryUrl = "https://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=20&latitude=" + latitude + "&longitude=" + longitude;
 
         console.log("queryUrl " + queryUrl);
 
@@ -58,7 +67,7 @@ function getStations(latitude, longitude) {
         }).then(function(response) {
 
             response.forEach(station => {
-                console.log("Station: ", station);
+                // console.log("Station: ", station);
 
                 if(station.AddressInfo !== null) {
                     console.log("--------------------------------------");
@@ -67,43 +76,82 @@ function getStations(latitude, longitude) {
                     console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
                     console.log("Latitude: ", station.AddressInfo.Latitude);
                     console.log("Longitude: ", station.AddressInfo.Longitude);
-                    console.log("--------------------------------------");
+                    console.log("--------------------------------------");    
+
+                    //pass the station data to create the marker on map to the addMarkerToTheMap function
+                    addMarkerToTheMap(station);
                 }
 
-                console.log("Connections:", station.Connections);
+                // console.log("Connections:", station.Connections);
 
-                if(station.Connections.length > 0) {
-                    station.Connections.forEach(connection => {
+                // if(station.Connections.length > 0) {
+                //     station.Connections.forEach(connection => {
 
-                        console.log("==============");
-                        if(connection.CurrentType !== null) {
-                            console.log("Current Title: ", connection.CurrentType.Title);
-                            console.log("Current Description: ", connection.CurrentType.Description);
-                        }
-                        if(connection.Voltage !== null) {
-                            console.log("Voltage: ", connection.Voltage);
-                        }
-                        if(connection.Amps !== null) {
-                            console.log("Amps: ", connection.Amps);
-                        }
-                        if(connection.Quantity !== null) {
-                            console.log("Quantity:", connection.Quantity);
-                        }
-                        console.log("==============");
-                    });
-                }
+                //         console.log("==============");
+                //         if(connection.CurrentType !== null) {
+                //             console.log("Current Title: ", connection.CurrentType.Title);
+                //             console.log("Current Description: ", connection.CurrentType.Description);    
+                //         }
+                //         if(connection.Voltage !== null) {
+                //             console.log("Voltage: ", connection.Voltage);
+                //         }
+                //         if(connection.Amps !== null) {
+                //             console.log("Amps: ", connection.Amps);
+                //         }
+                //         if(connection.Quantity !== null) {
+                //             console.log("Quantity:", connection.Quantity);
+                //         }
+                //         console.log("==============");
+                //     });
+                // }
             });
         });
     }
 }
+
+//This function is for adding markers(pin) on the map
+//source: https://developers.google.com/maps/documentation/javascript/markers
+function addMarkerToTheMap(station) {
+
+    // console.log("Station: ", station);
+
+    //create myLatLng const to set latitude and longitude value and pass this const to marker's position property
+    const myLatLng = { 
+        lat: station.AddressInfo.Latitude, 
+        lng: station.AddressInfo.Longitude 
+    };
+
+    //create markers using station's latitude and longitude
+    const marker = new google.maps.Marker({
+      position: myLatLng,
+      map,
+      title: station.AddressInfo.Title
+    });  
+
+    //set marker on map
+    marker.setMap(map);
+
+    //get the infoWindow fo each marker
+    var infoWindow = new google.maps.InfoWindow();
+
+    //when marker is click fill out staion details in this infoWindow
+    google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+            infoWindow.setContent(station.AddressInfo.Title);
+            infoWindow.open(map, marker);
+        }
+    })(marker));
+}
+
+  
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
-let map;
+var map;
 
 //Function to autofill cities as you type
 //Source: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
 function initAutocomplete() {
-    const map = new google.maps.Map(document.getElementById("map"), {
+     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
       types: ["gas"],
@@ -117,7 +165,7 @@ function initAutocomplete() {
     map.addListener("bounds_changed", () => {
       searchBox.setBounds(map.getBounds());
     });
-    let markers = [];
+    // let markers = [];
     // Added event listener so that when user selects a place from list of places
     //more info is provided for that particular place.
     searchBox.addListener("places_changed", () => {
@@ -126,12 +174,12 @@ function initAutocomplete() {
       if (places.length == 0) {
         return;
       }
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
-      // For each place, get the icon, name and location.
+    //   // Clear out the old markers.
+    //   markers.forEach((marker) => {
+    //     marker.setMap(null);
+    //   });
+    //   markers = [];
+    //   // For each place, get the icon, name and location.
       const bounds = new google.maps.LatLngBounds();
       places.forEach((place) => {
 
@@ -141,33 +189,6 @@ function initAutocomplete() {
             var encodedCity = encodeURI(place.formatted_address);
             getCityDetails(encodedCity);
           }
-
-        if (!place.geometry) {
-          console.log("Unknown places");
-          return;
-        }
-        const icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-        // Create a marker for each place.
-        markers.push(
-          new google.maps.Marker({
-            map,
-            icon,
-            title: place.name,
-            position: place.geometry.location,
-          })
-        );
-
-        if (place.geometry.viewport) {
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
       });
       map.fitBounds(bounds);
     });
