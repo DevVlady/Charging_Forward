@@ -48,7 +48,7 @@ function getCityDetails(cityName) {
                 getStations(latitude, longitude);
 
             } else {
-                alert("City not found!")
+                alert("City not found!");
             }
         });
     }
@@ -158,6 +158,9 @@ function initAutocomplete() {
       types: ["gas"],
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
+    
+    //set map's min and max zoom limit 
+    map.setOptions({ minZoom: 3, maxZoom: 17 });
 
     // Create search box
     const input = document.getElementById("auto-input");
