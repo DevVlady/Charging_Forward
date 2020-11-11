@@ -38,7 +38,7 @@ function getCityDetails(cityName) {
 
             if(response.results.length > 0) {
 
-                //get the each station's latitude and longitude 
+                //get the each station's latitude and longitude
                 latitude = response.results[0].locations[0].latLng.lat;
                 longitude = response.results[0].locations[0].latLng.lng;
 
@@ -79,34 +79,34 @@ function getStations(latitude, longitude) {
                     console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
                     console.log("Latitude: ", station.AddressInfo.Latitude);
                     console.log("Longitude: ", station.AddressInfo.Longitude);
-                    console.log("--------------------------------------");    
+                    console.log("--------------------------------------");
 
                     //pass the station data to create the marker on map to the addMarkerToTheMap function
                     addMarkerToTheMap(station);
                 }
 
-                // console.log("Connections:", station.Connections);
+                console.log("Connections:", station.Connections);
 
-                // if(station.Connections.length > 0) {
-                //     station.Connections.forEach(connection => {
+                if(station.Connections.length > 0) {
+                    station.Connections.forEach(connection => {
 
-                //         console.log("==============");
-                //         if(connection.CurrentType !== null) {
-                //             console.log("Current Title: ", connection.CurrentType.Title);
-                //             console.log("Current Description: ", connection.CurrentType.Description);    
-                //         }
-                //         if(connection.Voltage !== null) {
-                //             console.log("Voltage: ", connection.Voltage);
-                //         }
-                //         if(connection.Amps !== null) {
-                //             console.log("Amps: ", connection.Amps);
-                //         }
-                //         if(connection.Quantity !== null) {
-                //             console.log("Quantity:", connection.Quantity);
-                //         }
-                //         console.log("==============");
-                //     });
-                // }
+                        console.log("==============");
+                        if(connection.CurrentType !== null) {
+                            console.log("Current Title: ", connection.CurrentType.Title);
+                            console.log("Current Description: ", connection.CurrentType.Description);
+                        }
+                        if(connection.Voltage !== null) {
+                            console.log("Voltage: ", connection.Voltage);
+                        }
+                        if(connection.Amps !== null) {
+                            console.log("Amps: ", connection.Amps);
+                        }
+                        if(connection.Quantity !== null) {
+                            console.log("Quantity:", connection.Quantity);
+                        }
+                        console.log("==============");
+                    });
+                }
             });
 
             //it'll cover all the markers
@@ -125,9 +125,9 @@ function addMarkerToTheMap(station) {
     // console.log("Station: ", station);
 
     //create myLatLng const to set latitude and longitude value and pass this const to marker's position property
-    const myLatLng = { 
-        lat: station.AddressInfo.Latitude, 
-        lng: station.AddressInfo.Longitude 
+    const myLatLng = {
+        lat: station.AddressInfo.Latitude,
+        lng: station.AddressInfo.Longitude
     };
 
     //set markers bounds for each marker
@@ -138,13 +138,14 @@ function addMarkerToTheMap(station) {
       position: myLatLng,
       map,
       title: station.AddressInfo.Title
-    });  
+    });
 
     //add each marker to the markers Array
     markers.push(marker);
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
+
 
     //when marker is click fill out staion details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
@@ -155,7 +156,7 @@ function addMarkerToTheMap(station) {
     })(marker));
 }
 
-  
+
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
 
@@ -165,7 +166,6 @@ function initAutocomplete() {
      map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
-      types: ["gas"],
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
     
