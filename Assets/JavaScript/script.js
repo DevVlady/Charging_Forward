@@ -7,6 +7,8 @@ let bounds;
 
 $(document).ready(function() {
 
+    getUsersCurrentLocation();
+
     //Search button click
     $("#search-button").on("click", function() {
 
@@ -177,6 +179,7 @@ function addMarkerToTheMap(station) {
 //Function to autofill cities as you type
 //Source: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
 function initAutocomplete() {
+
      map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
@@ -226,3 +229,19 @@ function initAutocomplete() {
       });
     });
   }
+
+function getUsersCurrentLocation() {
+
+    if (window.navigator && window.navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+
+    function success(position) {
+        const latitude  = position.coords.latitude;
+        const longitude = position.coords.longitude;
+    
+        console.log("Latitude: " + latitude + "Longitude: " + longitude);
+    }          
+}
