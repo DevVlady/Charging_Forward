@@ -1,6 +1,9 @@
 
-var latitude = "";
-var longitude = "";
+let latitude = "";
+let longitude = "";
+let markers = [];
+let map;
+let bounds;
 
 $(document).ready(function() {
 
@@ -35,7 +38,7 @@ function getCityDetails(cityName) {
 
             if(response.results.length > 0) {
 
-                //get the each station's latitude and longitude 
+                //get the each station's latitude and longitude
                 latitude = response.results[0].locations[0].latLng.lat;
                 longitude = response.results[0].locations[0].latLng.lng;
 
@@ -46,7 +49,7 @@ function getCityDetails(cityName) {
                 getStations(latitude, longitude);
 
             } else {
-                alert("City not found!")
+                alert("City not found!");
             }
         });
     }
@@ -76,13 +79,13 @@ function getStations(latitude, longitude) {
                     console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
                     console.log("Latitude: ", station.AddressInfo.Latitude);
                     console.log("Longitude: ", station.AddressInfo.Longitude);
-                    console.log("--------------------------------------");    
+                    console.log("--------------------------------------");
 
                     //pass the station data to create the marker on map to the addMarkerToTheMap function
                     addMarkerToTheMap(station);
                 }
 
-                // console.log("Connections:", station.Connections);
+                console.log("Connections:", station.Connections);
 
                 // if(station.Connections.length > 0) {
                 //     station.Connections.forEach(connection => {
@@ -90,7 +93,7 @@ function getStations(latitude, longitude) {
                 //         console.log("==============");
                 //         if(connection.CurrentType !== null) {
                 //             console.log("Current Title: ", connection.CurrentType.Title);
-                //             console.log("Current Description: ", connection.CurrentType.Description);    
+                //             console.log("Current Description: ", connection.CurrentType.Description);
                 //         }
                 //         if(connection.Voltage !== null) {
                 //             console.log("Voltage: ", connection.Voltage);
@@ -105,6 +108,12 @@ function getStations(latitude, longitude) {
                 //     });
                 // }
             });
+
+            //it'll cover all the markers
+            map.fitBounds(bounds);
+
+            //then center the map
+            map.panToBounds(bounds);
         });
     }
 }
@@ -116,37 +125,104 @@ function addMarkerToTheMap(station) {
     // console.log("Station: ", station);
 
     //create myLatLng const to set latitude and longitude value and pass this const to marker's position property
-    const myLatLng = { 
-        lat: station.AddressInfo.Latitude, 
-        lng: station.AddressInfo.Longitude 
+    const myLatLng = {
+        lat: station.AddressInfo.Latitude,
+        lng: station.AddressInfo.Longitude
     };
+
+    //set markers bounds for each marker
+    bounds.extend(new google.maps.LatLng(myLatLng));
 
     //create markers using station's latitude and longitude
     const marker = new google.maps.Marker({
       position: myLatLng,
+      //Added animation to the markers
+      //Source: https://developers.google.com/maps/documentation/javascript/examples/marker-animations
+      animation: google.maps.Animation.DROP,
       map,
-      title: station.AddressInfo.Title
-    });  
+      title: station.AddressInfo.Title,
+    });
+    //Added the event listener to bounce the markers on click (turn on or off)
+    marker.addListener("click", toggleBounce);
 
-    //set marker on map
-    marker.setMap(map);
+    //Function to make the bounce feature on the markers operate
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+
+    //add each marker to the markers Array
+    markers.push(marker);
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
-
+    var connectionTitle = '';
+    var connectionVoltage = '';
+    var connectionDescription = '';
+    var connectionAmps = '';
+    var connectionQuantity = '';
+    if(station.Connections.length > 0) {
+        station.Connections.forEach(connection => {
+            console.log("==============");
+            if(connection.CurrentType !== null) {
+                console.log("Current Title: ", connection.CurrentType.Title);
+                console.log("Current Description: ", connection.CurrentType.Description);
+                connectionTitle += connection.CurrentType.Title;
+            }
+            if(connection.CurrentType !== null) {
+                console.log("Voltage: ", connection.CurrentType.Description);
+                connectionDescription += connection.CurrentType.Description;
+            }
+            if(connection.Voltage !== null) {
+                console.log("Voltage: ", connection.Voltage);
+                connectionVoltage += connection.Voltage;
+            }
+            if(connection.Amps !== null) {
+                console.log("Amps: ", connection.Amps);
+                connectionAmps += connection.Amps
+            }
+            if(connection.Quantity !== null) {
+                console.log("Quantity:", connection.Quantity);
+                connectionQuantity += connection.Quantity;
+            }
+            console.log("==============");
+        });
+    }
+    console.log("connectionTitle: " + connectionTitle);
+    console.log("connectionDescription: " + connectionDescription);
+    console.log("connectionVoltage: " + connectionVoltage);
+    console.log("connectionAmps: " + connectionAmps);
+    console.log("connectionQuantity: " + connectionQuantity);
+    const contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    "</div>" +
+    `<h1><b>${station.AddressInfo.Title}</b></h1>` +
+    '<div id="bodyContent">' +
+    `<p>${station.AddressInfo.AddressLine1}</p>` +
+    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
+    `<p>Current Type: ${connectionTitle}</p>` +
+    `<p>Description: ${connectionDescription}</p>` +
+    `<p>Voltage: ${connectionVoltage}</p>` +
+    `<p>AMPS: ${connectionAmps}</p>` +
+    `<p>Quantity: ${connectionQuantity}</p>` +
+    "</div>" +
+    "</div>";
+    console.log(contentString);
     //when marker is click fill out staion details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
-            infoWindow.setContent(station.AddressInfo.Title);
+            infoWindow.setContent(contentString);
             infoWindow.open(map, marker);
         }
     })(marker));
 }
 
-  
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
-var map;
 
 //Function to autofill cities as you type
 //Source: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
@@ -154,35 +230,44 @@ function initAutocomplete() {
      map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
-      types: ["gas"],
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
+
+    //set map's min and max zoom limit
+    map.setOptions({ minZoom: 3, maxZoom: 17 });
+
     // Create search box
     const input = document.getElementById("auto-input");
     const searchBox = new google.maps.places.SearchBox(input);
+
     //map.controls[google.maps.ControlPosition.LEFT].push(input);
+
     // Take searchbox results and pass it to map.
     map.addListener("bounds_changed", () => {
       searchBox.setBounds(map.getBounds());
     });
-    // let markers = [];
+
     // Added event listener so that when user selects a place from list of places
     //more info is provided for that particular place.
     searchBox.addListener("places_changed", () => {
       const places = searchBox.getPlaces();
 
       if (places.length == 0) {
+          alert("There is no such place! Please try again!")
         return;
       }
-    //   // Clear out the old markers.
-    //   markers.forEach((marker) => {
-    //     marker.setMap(null);
-    //   });
-    //   markers = [];
-    //   // For each place, get the icon, name and location.
-      const bounds = new google.maps.LatLngBounds();
+
+      // Clear out the old markers.
+      markers.forEach((marker) => {
+        marker.setMap(null);
+      });
+      markers = [];
+      bounds  = new google.maps.LatLngBounds();
+
+      //interate throw all the places
       places.forEach((place) => {
 
+        //get the selected place in place input parameter
           console.log("address" + place.formatted_address);
 
           if(place.formatted_address !== "") {
@@ -190,11 +275,9 @@ function initAutocomplete() {
             getCityDetails(encodedCity);
           }
       });
-      map.fitBounds(bounds);
     });
+
   }
-
-
 
 function hideAway(){
     var hide = document.getElementById('hideaway');
@@ -203,3 +286,4 @@ function hideAway(){
         hide.style.display="none";
     });
 }
+
