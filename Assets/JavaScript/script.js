@@ -110,10 +110,10 @@ function getStations(latitude, longitude) {
             });
 
             //it'll cover all the markers
-            map.fitBounds(bounds);  
+            map.fitBounds(bounds);
 
             //then center the map
-            map.panToBounds(bounds);     
+            map.panToBounds(bounds);
         });
     }
 }
@@ -136,9 +136,23 @@ function addMarkerToTheMap(station) {
     //create markers using station's latitude and longitude
     const marker = new google.maps.Marker({
       position: myLatLng,
+      //Added animation to the markers
+      //Source: https://developers.google.com/maps/documentation/javascript/examples/marker-animations
+      animation: google.maps.Animation.DROP,
       map,
-      title: station.AddressInfo.Title
+      title: station.AddressInfo.Title,
     });
+    //Added the event listener to bounce the markers on click (turn on or off)
+    marker.addListener("click", toggleBounce);
+    //Function to make the bounce feature on the markers operate
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+
 
     //add each marker to the markers Array
     markers.push(marker);
@@ -168,8 +182,8 @@ function initAutocomplete() {
       zoom: 5,
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
     });
-    
-    //set map's min and max zoom limit 
+
+    //set map's min and max zoom limit
     map.setOptions({ minZoom: 3, maxZoom: 17 });
 
     // Create search box
