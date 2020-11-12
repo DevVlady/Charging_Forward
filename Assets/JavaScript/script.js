@@ -86,29 +86,7 @@ function getStations(latitude, longitude) {
                     //pass the station data to create the marker on map to the addMarkerToTheMap function
                     addMarkerToTheMap(station);
                 }
-
                 console.log("Connections:", station.Connections);
-
-                // if(station.Connections.length > 0) {
-                //     station.Connections.forEach(connection => {
-
-                //         console.log("==============");
-                //         if(connection.CurrentType !== null) {
-                //             console.log("Current Title: ", connection.CurrentType.Title);
-                //             console.log("Current Description: ", connection.CurrentType.Description);
-                //         }
-                //         if(connection.Voltage !== null) {
-                //             console.log("Voltage: ", connection.Voltage);
-                //         }
-                //         if(connection.Amps !== null) {
-                //             console.log("Amps: ", connection.Amps);
-                //         }
-                //         if(connection.Quantity !== null) {
-                //             console.log("Quantity:", connection.Quantity);
-                //         }
-                //         console.log("==============");
-                //     });
-                // }
             });
 
             //it'll cover all the markers
@@ -144,6 +122,8 @@ function addMarkerToTheMap(station) {
       map,
       title: station.AddressInfo.Title,
     });
+
+
     //Added the event listener to bounce the markers on click (turn on or off)
     marker.addListener("click", toggleBounce);
 
@@ -166,7 +146,6 @@ function addMarkerToTheMap(station) {
     var infoWindow = new google.maps.InfoWindow();
     var connectionTitle = '';
     var connectionVoltage = '';
-    var connectionDescription = '';
     var connectionAmps = '';
     var connectionQuantity = '';
     if(station.Connections.length > 0) {
@@ -176,10 +155,6 @@ function addMarkerToTheMap(station) {
                 console.log("Current Title: ", connection.CurrentType.Title);
                 console.log("Current Description: ", connection.CurrentType.Description);
                 connectionTitle += connection.CurrentType.Title;
-            }
-            if(connection.CurrentType !== null) {
-                console.log("Voltage: ", connection.CurrentType.Description);
-                connectionDescription += connection.CurrentType.Description;
             }
             if(connection.Voltage !== null) {
                 console.log("Voltage: ", connection.Voltage);
@@ -197,7 +172,6 @@ function addMarkerToTheMap(station) {
         });
     }
     console.log("connectionTitle: " + connectionTitle);
-    console.log("connectionDescription: " + connectionDescription);
     console.log("connectionVoltage: " + connectionVoltage);
     console.log("connectionAmps: " + connectionAmps);
     console.log("connectionQuantity: " + connectionQuantity);
@@ -210,14 +184,13 @@ function addMarkerToTheMap(station) {
     `<p>${station.AddressInfo.AddressLine1}</p>` +
     `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
     `<p>Current Type: ${connectionTitle}</p>` +
-    `<p>Description: ${connectionDescription}</p>` +
     `<p>Voltage: ${connectionVoltage}</p>` +
     `<p>AMPS: ${connectionAmps}</p>` +
     `<p>Quantity: ${connectionQuantity}</p>` +
     "</div>" +
     "</div>";
     console.log(contentString);
-    //when marker is click fill out staion details in this infoWindow
+    //when marker is click fill out station details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
             infoWindow.setContent(contentString);
@@ -233,7 +206,7 @@ function addMarkerToTheMap(station) {
 //Source: https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
 function initAutocomplete() {
 
-     map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 40.836820, lng: -96.136490 },
       zoom: 5,
       mapTypeControl: false, //Turns the stellite & map feature off from the map feature
