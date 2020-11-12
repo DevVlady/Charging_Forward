@@ -26,7 +26,7 @@ $(document).ready(function() {
 function getCityDetails(cityName) {
 
     if(cityName === "") {
-        hideAway();
+        hideAway("Please enter your city first!");
     } else {
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
@@ -298,11 +298,12 @@ function getUsersCurrentLocation() {
     }          
 }
 
-function hideAway(){
+function hideAway(title){
     var hide = document.getElementById('hideaway');
     document.getElementById('hideaway').style.display='block';
     hide.addEventListener('click', function(){
-        hide.style.display="none";
+    hide.style.display="none";
     });
+    $("#alert-title").text(title);
 }
 
