@@ -159,42 +159,60 @@ function addMarkerToTheMap(station) {
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
-
+    var connectionTitle = '';
+    var connectionVoltage = '';
+    var connectionDescription = '';
+    var connectionAmps = '';
+    var connectionQuantity = '';
     if(station.Connections.length > 0) {
         station.Connections.forEach(connection => {
-
             console.log("==============");
             if(connection.CurrentType !== null) {
                 console.log("Current Title: ", connection.CurrentType.Title);
                 console.log("Current Description: ", connection.CurrentType.Description);
+                connectionTitle += connection.CurrentType.Title;
+            }
+            if(connection.CurrentType !== null) {
+                console.log("Voltage: ", connection.CurrentType.Description);
+                connectionDescription += connection.CurrentType.Description;
             }
             if(connection.Voltage !== null) {
                 console.log("Voltage: ", connection.Voltage);
+                connectionVoltage += connection.Voltage;
             }
             if(connection.Amps !== null) {
                 console.log("Amps: ", connection.Amps);
+                connectionAmps += connection.Amps
             }
             if(connection.Quantity !== null) {
                 console.log("Quantity:", connection.Quantity);
+                connectionQuantity += connection.Quantity;
             }
             console.log("==============");
-            //Add custom content to the marker
-            //Source: https://developers.google.com/maps/documentation/javascript/infowindows#open
-            const contentString =
-            '<div id="content">' +
-            '<div id="siteNotice">' +
-            "</div>" +
-            `<h1><b>${station.AddressInfo.Title}</b></h1>` +
-            '<div id="bodyContent">' +
-            `<p>${station.AddressInfo.AddressLine1}</p>` +
-            `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
-            // `<p>${connection.CurrentType.Title}</p>` +
-            "</div>" +
-            "</div>";
-            console.log(contentString)
         });
     }
-    //when marker is click fill out station details in this infoWindow
+    console.log("connectionTitle: " + connectionTitle);
+    console.log("connectionDescription: " + connectionDescription);
+    console.log("connectionVoltage: " + connectionVoltage);
+    console.log("connectionAmps: " + connectionAmps);
+    console.log("connectionQuantity: " + connectionQuantity);
+    const contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    "</div>" +
+    `<h1><b>${station.AddressInfo.Title}</b></h1>` +
+    '<div id="bodyContent">' +
+    `<p>${station.AddressInfo.AddressLine1}</p>` +
+    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
+    `<p>Current Type: ${connectionTitle}</p>` +
+    `<p>Description: ${connectionDescription}</p>` +
+    `<p>Voltage: ${connectionVoltage}</p>` +
+    `<p>AMPS: ${connectionAmps}</p>` +
+    `<p>Quantity: ${connectionQuantity}</p>` +
+    "</div>" +
+    "</div>";
+    console.log(contentString);
+    //when marker is click fill out staion details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
             infoWindow.setContent(contentString);
