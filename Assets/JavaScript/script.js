@@ -153,6 +153,9 @@ function addMarkerToTheMap(station) {
           marker.setAnimation(null);
         } else {
           marker.setAnimation(google.maps.Animation.BOUNCE);
+          //Set the marker to bounce then stop
+          //Source: http://superstorefinder.net/support/forums/topic/controlling-the-bouncing-markers/
+          setTimeout(function(){ marker.setAnimation(null); }, 750);
         }
       }
 
@@ -293,9 +296,9 @@ function getUsersCurrentLocation() {
     function success(position) {
         const latitude  = position.coords.latitude;
         const longitude = position.coords.longitude;
-    
+
         console.log("Latitude: " + latitude + "Longitude: " + longitude);
-    }          
+    }
 }
 
 function hideAway(){
