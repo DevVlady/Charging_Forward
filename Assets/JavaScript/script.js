@@ -28,6 +28,14 @@ function getCityDetails(cityName) {
     if(cityName === "") {
         hideAway();
     } else {
+
+    // Clear out the old markers.
+      markers.forEach((marker) => {
+        marker.setMap(null);
+      });
+      markers = [];
+      bounds  = new google.maps.LatLngBounds();
+
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
         console.log("city url " + queryUrl);
@@ -259,13 +267,6 @@ function initAutocomplete() {
           alert("There is no such place! Please try again!")
         return;
       }
-
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
-      bounds  = new google.maps.LatLngBounds();
 
       //interate throw all the places
       places.forEach((place) => {
