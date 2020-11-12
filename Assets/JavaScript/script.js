@@ -87,26 +87,26 @@ function getStations(latitude, longitude) {
 
                 console.log("Connections:", station.Connections);
 
-                if(station.Connections.length > 0) {
-                    station.Connections.forEach(connection => {
+                // if(station.Connections.length > 0) {
+                //     station.Connections.forEach(connection => {
 
-                        console.log("==============");
-                        if(connection.CurrentType !== null) {
-                            console.log("Current Title: ", connection.CurrentType.Title);
-                            console.log("Current Description: ", connection.CurrentType.Description);
-                        }
-                        if(connection.Voltage !== null) {
-                            console.log("Voltage: ", connection.Voltage);
-                        }
-                        if(connection.Amps !== null) {
-                            console.log("Amps: ", connection.Amps);
-                        }
-                        if(connection.Quantity !== null) {
-                            console.log("Quantity:", connection.Quantity);
-                        }
-                        console.log("==============");
-                    });
-                }
+                //         console.log("==============");
+                //         if(connection.CurrentType !== null) {
+                //             console.log("Current Title: ", connection.CurrentType.Title);
+                //             console.log("Current Description: ", connection.CurrentType.Description);
+                //         }
+                //         if(connection.Voltage !== null) {
+                //             console.log("Voltage: ", connection.Voltage);
+                //         }
+                //         if(connection.Amps !== null) {
+                //             console.log("Amps: ", connection.Amps);
+                //         }
+                //         if(connection.Quantity !== null) {
+                //             console.log("Quantity:", connection.Quantity);
+                //         }
+                //         console.log("==============");
+                //     });
+                // }
             });
 
             //it'll cover all the markers
@@ -144,6 +144,7 @@ function addMarkerToTheMap(station) {
     });
     //Added the event listener to bounce the markers on click (turn on or off)
     marker.addListener("click", toggleBounce);
+
     //Function to make the bounce feature on the markers operate
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
@@ -153,23 +154,54 @@ function addMarkerToTheMap(station) {
         }
       }
 
-
     //add each marker to the markers Array
     markers.push(marker);
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
 
+    if(station.Connections.length > 0) {
+        station.Connections.forEach(connection => {
 
-    //when marker is click fill out staion details in this infoWindow
+            console.log("==============");
+            if(connection.CurrentType !== null) {
+                console.log("Current Title: ", connection.CurrentType.Title);
+                console.log("Current Description: ", connection.CurrentType.Description);
+            }
+            if(connection.Voltage !== null) {
+                console.log("Voltage: ", connection.Voltage);
+            }
+            if(connection.Amps !== null) {
+                console.log("Amps: ", connection.Amps);
+            }
+            if(connection.Quantity !== null) {
+                console.log("Quantity:", connection.Quantity);
+            }
+            console.log("==============");
+            //Add custom content to the marker
+            //Source: https://developers.google.com/maps/documentation/javascript/infowindows#open
+            const contentString =
+            '<div id="content">' +
+            '<div id="siteNotice">' +
+            "</div>" +
+            `<h1><b>${station.AddressInfo.Title}</b></h1>` +
+            '<div id="bodyContent">' +
+            `<p>${station.AddressInfo.AddressLine1}</p>` +
+            `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
+            // `<p>${connection.CurrentType.Title}</p>` +
+            "</div>" +
+            "</div>";
+            console.log(contentString)
+        });
+    }
+    //when marker is click fill out station details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
-            infoWindow.setContent(station.AddressInfo.Title);
+            infoWindow.setContent(contentString);
             infoWindow.open(map, marker);
         }
     })(marker));
 }
-
 
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
