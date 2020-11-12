@@ -24,7 +24,7 @@ $(document).ready(function() {
 function getCityDetails(cityName) {
 
     if(cityName === "") {
-        alert("please enter city first");
+        hideAway();
     } else {
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
@@ -239,7 +239,8 @@ function initAutocomplete() {
     // Create search box
     const input = document.getElementById("auto-input");
     const searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.LEFT].push(input);
+
+    //map.controls[google.maps.ControlPosition.LEFT].push(input);
 
     // Take searchbox results and pass it to map.
     map.addListener("bounds_changed", () => {
@@ -275,4 +276,14 @@ function initAutocomplete() {
           }
       });
     });
+
   }
+
+function hideAway(){
+    var hide = document.getElementById('hideaway');
+    document.getElementById('hideaway').style.display='block';
+    hide.addEventListener('click', function(){
+        hide.style.display="none";
+    });
+}
+
