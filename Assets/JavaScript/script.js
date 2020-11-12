@@ -26,7 +26,7 @@ $(document).ready(function() {
 function getCityDetails(cityName) {
 
     if(cityName === "") {
-        alert("please enter city first");
+        hideAway();
     } else {
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
@@ -89,26 +89,26 @@ function getStations(latitude, longitude) {
 
                 console.log("Connections:", station.Connections);
 
-                if(station.Connections.length > 0) {
-                    station.Connections.forEach(connection => {
+                // if(station.Connections.length > 0) {
+                //     station.Connections.forEach(connection => {
 
-                        console.log("==============");
-                        if(connection.CurrentType !== null) {
-                            console.log("Current Title: ", connection.CurrentType.Title);
-                            console.log("Current Description: ", connection.CurrentType.Description);
-                        }
-                        if(connection.Voltage !== null) {
-                            console.log("Voltage: ", connection.Voltage);
-                        }
-                        if(connection.Amps !== null) {
-                            console.log("Amps: ", connection.Amps);
-                        }
-                        if(connection.Quantity !== null) {
-                            console.log("Quantity:", connection.Quantity);
-                        }
-                        console.log("==============");
-                    });
-                }
+                //         console.log("==============");
+                //         if(connection.CurrentType !== null) {
+                //             console.log("Current Title: ", connection.CurrentType.Title);
+                //             console.log("Current Description: ", connection.CurrentType.Description);
+                //         }
+                //         if(connection.Voltage !== null) {
+                //             console.log("Voltage: ", connection.Voltage);
+                //         }
+                //         if(connection.Amps !== null) {
+                //             console.log("Amps: ", connection.Amps);
+                //         }
+                //         if(connection.Quantity !== null) {
+                //             console.log("Quantity:", connection.Quantity);
+                //         }
+                //         console.log("==============");
+                //     });
+                // }
             });
 
             //it'll cover all the markers
@@ -146,6 +146,7 @@ function addMarkerToTheMap(station) {
     });
     //Added the event listener to bounce the markers on click (turn on or off)
     marker.addListener("click", toggleBounce);
+
     //Function to make the bounce feature on the markers operate
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
@@ -155,23 +156,72 @@ function addMarkerToTheMap(station) {
         }
       }
 
-
     //add each marker to the markers Array
     markers.push(marker);
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
-
-
+    var connectionTitle = '';
+    var connectionVoltage = '';
+    var connectionDescription = '';
+    var connectionAmps = '';
+    var connectionQuantity = '';
+    if(station.Connections.length > 0) {
+        station.Connections.forEach(connection => {
+            console.log("==============");
+            if(connection.CurrentType !== null) {
+                console.log("Current Title: ", connection.CurrentType.Title);
+                console.log("Current Description: ", connection.CurrentType.Description);
+                connectionTitle += connection.CurrentType.Title;
+            }
+            if(connection.CurrentType !== null) {
+                console.log("Voltage: ", connection.CurrentType.Description);
+                connectionDescription += connection.CurrentType.Description;
+            }
+            if(connection.Voltage !== null) {
+                console.log("Voltage: ", connection.Voltage);
+                connectionVoltage += connection.Voltage;
+            }
+            if(connection.Amps !== null) {
+                console.log("Amps: ", connection.Amps);
+                connectionAmps += connection.Amps
+            }
+            if(connection.Quantity !== null) {
+                console.log("Quantity:", connection.Quantity);
+                connectionQuantity += connection.Quantity;
+            }
+            console.log("==============");
+        });
+    }
+    console.log("connectionTitle: " + connectionTitle);
+    console.log("connectionDescription: " + connectionDescription);
+    console.log("connectionVoltage: " + connectionVoltage);
+    console.log("connectionAmps: " + connectionAmps);
+    console.log("connectionQuantity: " + connectionQuantity);
+    const contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    "</div>" +
+    `<h1><b>${station.AddressInfo.Title}</b></h1>` +
+    '<div id="bodyContent">' +
+    `<p>${station.AddressInfo.AddressLine1}</p>` +
+    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
+    `<p>Current Type: ${connectionTitle}</p>` +
+    `<p>Description: ${connectionDescription}</p>` +
+    `<p>Voltage: ${connectionVoltage}</p>` +
+    `<p>AMPS: ${connectionAmps}</p>` +
+    `<p>Quantity: ${connectionQuantity}</p>` +
+    "</div>" +
+    "</div>";
+    console.log(contentString);
     //when marker is click fill out staion details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
-            infoWindow.setContent(station.AddressInfo.Title);
+            infoWindow.setContent(contentString);
             infoWindow.open(map, marker);
         }
     })(marker));
 }
-
 
 //This will display the map on our page using
 //Source: https://developers.google.com/maps/documentation/javascript/overview
@@ -192,7 +242,8 @@ function initAutocomplete() {
     // Create search box
     const input = document.getElementById("auto-input");
     const searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.LEFT].push(input);
+
+    //map.controls[google.maps.ControlPosition.LEFT].push(input);
 
     // Take searchbox results and pass it to map.
     map.addListener("bounds_changed", () => {
@@ -228,8 +279,9 @@ function initAutocomplete() {
           }
       });
     });
-  }
+}
 
+//get user's current location
 function getUsersCurrentLocation() {
 
     if (window.navigator && window.navigator.geolocation) {
@@ -245,3 +297,12 @@ function getUsersCurrentLocation() {
         console.log("Latitude: " + latitude + "Longitude: " + longitude);
     }          
 }
+
+function hideAway(){
+    var hide = document.getElementById('hideaway');
+    document.getElementById('hideaway').style.display='block';
+    hide.addEventListener('click', function(){
+        hide.style.display="none";
+    });
+}
+

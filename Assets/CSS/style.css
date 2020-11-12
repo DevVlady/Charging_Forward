@@ -2,22 +2,82 @@
   height: 100%;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;   
+    font-family: Titillium Web; 
 }
 
 input {
-  padding: 10px;
-  margin-left: 10px;
-  padding-right: 200px;
+    padding: 10px;
+    margin-left: 10px;
+    padding-right: 100px;
+}
+
+#auto-input{
+    background-color:rgb(236, 237, 238);
+    border: none;
+    width:300px;
 }
 
 #over-map {
-  position: absolute;
-  top: 45px;
-  left: 10px;
-  z-index: 99;
+    position: absolute;
+    top: 95px;
+    left: 10px;
+    z-index: 99;
 }
+
+.color-change{
+    background-color: #8bc7d8;
+}
+
+.nav-border{
+    border-bottom: 1px solid black;
+}
+
+.center-it { 
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#logo { 
+    padding:0;
+    margin:auto 0;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.spacing-header{
+    padding-top:10px;
+    padding-bottom: 0;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color:black;
+    text-align: center;
+    margin-bottom: 0;
+    padding-top:5px;
+    padding-bottom: 5px;
+    border-top: 1px solid black;
+  }
+.p-footer{
+    font-weight: 400;
+}
+
+
+.label2 {
+    position: absolute;
+    top: 150px;
+    left: 2%;
+    height: 100px;
+    width: 200px;
+    z-index: 99;
+    display: none;
+}
+
