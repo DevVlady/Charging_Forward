@@ -1,13 +1,9 @@
-/*Added position and width for responsiveness*/
-#map {
-  height: 100%;
+
+#map { 
   width: auto;
   position: relative;
-}
-
-/*Added float to title*/
-p .title {
-  float: top;
+  height:100vh;
+  min-height:100vh;
 }
 
 html,
@@ -30,6 +26,7 @@ input {
 }
 
 #over-map {
+<<<<<<< HEAD
   position: fixed;
   margin: 0 auto;
   margin-top: 50px;
@@ -71,6 +68,56 @@ input {
 }
 .p-footer {
   font-weight: 400;
+=======
+    position: relative;
+    margin: 0 auto;
+    margin-top: 50px;
+    width: auto;
+    height: auto;
+    top: 10%;
+    left: 50%;
+    z-index: 99;
+}
+.color-change{
+    background-image: url(bush.png);
+    padding: 20px 0;
+ 
+}
+.center-it { 
+    margin-right: auto;
+    margin-left: auto;
+}
+#logo { 
+    padding:0;
+    margin:auto 0;
+    font-weight: 700;
+    font-size: 30px;
+    color:white;
+    text-shadow: 2px 2px black;
+}
+.display-test{
+    z-index:1000;
+    position:absolute;
+}
+.spacing-header{
+    padding:0;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color:white;
+    text-shadow: 2px 2px black;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0;
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+.p-footer{
+    font-weight: 400;
+>>>>>>> aa75eb2774b70579ddbd97b5cbad16f27af96f7f
 }
 
 .label2 {
@@ -93,11 +140,19 @@ input {
 }
 
 .sidebar {
+<<<<<<< HEAD
   width: 30%;
   height: 100%;
   background-color: rgba(5, 150, 182, 0.3);
   transition: 1s ease;
   position: relative;
+=======
+    width: 30%;
+    height: 100%;
+    background-color: #EFEFEF; 
+    transition: 1s ease;
+    position: relative;
+>>>>>>> aa75eb2774b70579ddbd97b5cbad16f27af96f7f
 }
 
 .main-content {
