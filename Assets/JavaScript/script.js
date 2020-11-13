@@ -151,6 +151,20 @@ function addMarkerToTheMap(station) {
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
 
+    var contentString = getContentString(station);
+
+    //when marker is click fill out station details in this infoWindow
+    google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+            closeOtherInfoWindow();
+            infoWindow.setContent(contentString);
+            infoWindow.open(map, marker);
+            infoWindowObject[0] = infoWindow;
+        }
+    })(marker));
+}
+
+function getContentString(station) {
     let contentString =
     '<div id="content">' +
     '<div id="siteNotice">' +
@@ -207,17 +221,10 @@ function addMarkerToTheMap(station) {
     
     console.log("contentString" + contentString);
 
-    //when marker is click fill out station details in this infoWindow
-    google.maps.event.addListener(marker, 'click', (function(marker) {
-        return function() {
-            closeOtherInfoWindow();
-            infoWindow.setContent(contentString);
-            infoWindow.open(map, marker);
-            infoWindowObject[0] = infoWindow;
-        }
-    })(marker));
+    return contentString;
 }
 
+//function for close the info window for every marker on map
 function closeOtherInfoWindow() {
     if (infoWindowObject.length > 0) {
         infoWindowObject[0].set("marker", null);
