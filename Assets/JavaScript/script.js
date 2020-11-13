@@ -164,6 +164,7 @@ function addMarkerToTheMap(station) {
     })(marker));
 }
 
+//function for creating content string.. we'll pass this content string to set content on infoWindow
 function getContentString(station) {
     let contentString =
     '<div id="content">' +
@@ -218,9 +219,7 @@ function getContentString(station) {
     }
         
     contentString += '</div>' + '</div>';
-    
     console.log("contentString" + contentString);
-
     return contentString;
 }
 
@@ -325,7 +324,6 @@ function hideAway(title){
     $("#alert-title").text(title);
 }
 
-
 // This applies the click event to the button, hopefully will work with the visual anomoly
 const sidebar = document.querySelector('.sidebar');
 const mainContent = document.querySelector('.main-content');
@@ -335,6 +333,7 @@ document.querySelector('button').onclick = function () {
     mainContent.classList.toggle('main-content_Large')
 }
 
+//for clearing every marker on screen before user search for new place
 function clearAllMarkers() {
     // Clear out the old markers.
     markers.forEach((marker) => {
