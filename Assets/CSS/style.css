@@ -128,3 +128,8 @@ input {
     transform: translateX(-50%);
     cursor: pointer;
 }
+
+  /* Darker background on mouse-over */
+  .btn:hover {
+    background-color: rgb(179, 215, 176);
+  }
