@@ -4,6 +4,7 @@ let longitude = "";
 let markers = [];
 let map;
 let bounds;
+var infoWindowObject = [];
 
 $(document).ready(function() {
 
@@ -149,59 +150,88 @@ function addMarkerToTheMap(station) {
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
-    var connectionTitle = '';
-    var connectionVoltage = '';
-    var connectionAmps = '';
-    var connectionQuantity = '';
-    if(station.Connections.length > 0) {
-        station.Connections.forEach(connection => {
-            console.log("==============");
-            if(connection.CurrentType !== null) {
-                console.log("Current Title: ", connection.CurrentType.Title);
-                console.log("Current Description: ", connection.CurrentType.Description);
-                connectionTitle += connection.CurrentType.Title;
-            }
-            if(connection.Voltage !== null) {
-                console.log("Voltage: ", connection.Voltage);
-                connectionVoltage += connection.Voltage;
-            }
-            if(connection.Amps !== null) {
-                console.log("Amps: ", connection.Amps);
-                connectionAmps += connection.Amps
-            }
-            if(connection.Quantity !== null) {
-                console.log("Quantity:", connection.Quantity);
-                connectionQuantity += connection.Quantity;
-            }
-            console.log("==============");
-        });
-    }
-    console.log("connectionTitle: " + connectionTitle);
-    console.log("connectionVoltage: " + connectionVoltage);
-    console.log("connectionAmps: " + connectionAmps);
-    console.log("connectionQuantity: " + connectionQuantity);
-    const contentString =
-    '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    `<h1><b>${station.AddressInfo.Title}</b></h1>` +
-    '<div id="bodyContent">' +
-    `<p>${station.AddressInfo.AddressLine1}</p>` +
-    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
-    `<p>Current Type: ${connectionTitle}</p>` +
-    `<p>Voltage: ${connectionVoltage}</p>` +
-    `<p>AMPS: ${connectionAmps}</p>` +
-    `<p>Quantity: ${connectionQuantity}</p>` +
-    "</div>" +
-    "</div>";
-    console.log(contentString);
+
+    var contentString = getContentString(station);
+
     //when marker is click fill out station details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
+            closeOtherInfoWindow();
             infoWindow.setContent(contentString);
             infoWindow.open(map, marker);
+            infoWindowObject[0] = infoWindow;
         }
     })(marker));
+}
+
+//function for creating content string.. we'll pass this content string to set content on infoWindow
+function getContentString(station) {
+    let contentString =
+    '<div id="content">' +
+    '<div id="siteNotice">' +
+    '</div>' +
+    `<h1><b>${station.AddressInfo.Title}</b></h1>` +
+    '<div id="bodyContent">' +
+    `<p>${station.AddressInfo.AddressLine1}</p>` +
+    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>`;
+
+    if(station.Connections.length > 0) {
+        if (station.Connections.length === 1) {
+            if(station.Connections[0].CurrentType.Title !== null) {
+                contentString += `<p>Current Type: ${station.Connections[0].CurrentType.Title}</p>`;
+            }
+        
+            if(station.Connections[0].Voltage !== null) {
+                contentString += `<p>Voltage: ${station.Connections[0].Voltage}</p>`; 
+            }
+        
+            if(station.Connections[0].Amps !== null) {
+                contentString += `<p>AMPS: ${station.Connections[0].Amps}</p>`;
+            }
+        
+            if(station.Connections[0].Quantity !== null) {
+                contentString += `<p>Quantity: ${station.Connections[0].Quantity}</p>`;
+            }        
+        } else {
+            station.Connections.forEach(connection => {
+                contentString += "<span class='connection-block'>";
+                if(connection.CurrentType !== null) {
+                    console.log("Current Title: ", connection.CurrentType.Title);
+                    console.log("Current Description: ", connection.CurrentType.Description);
+
+                    contentString += `<p>Current Type: ${connection.CurrentType.Title}</p>`;
+                }
+                if(connection.Voltage !== null) {
+                    console.log("Voltage: ", connection.Voltage);
+                    contentString += `<p>Voltage: ${connection.Voltage}</p>`; 
+                }
+                if(connection.Amps !== null) {
+                    console.log("Amps: ", connection.Amps);
+                    contentString += `<p>AMPS: ${connection.Amps}</p>`;
+                }
+                if(connection.Quantity !== null) {
+                    console.log("Quantity:", connection.Quantity);
+                    contentString += `<p>Quantity: ${connection.Quantity}</p>`;
+                }
+                contentString += "</span>";
+            });    
+        }
+    }
+        
+    contentString += '</div>' + '</div>';
+    console.log("contentString" + contentString);
+    return contentString;
+}
+
+//function for close the info window for every marker on map
+function closeOtherInfoWindow() {
+    if (infoWindowObject.length > 0) {
+        infoWindowObject[0].set("marker", null);
+        /* and close it */
+        infoWindowObject[0].close();
+        /* blank the array */
+        infoWindowObject = [];
+    }
 }
 
 //This will display the map on our page using
@@ -294,7 +324,6 @@ function hideAway(title){
     $("#alert-title").text(title);
 }
 
-
 // This applies the click event to the button, hopefully will work with the visual anomoly
 const sidebar = document.querySelector('.sidebar');
 const mainContent = document.querySelector('.main-content');
@@ -304,6 +333,7 @@ document.querySelector('button').onclick = function () {
     mainContent.classList.toggle('main-content_Large')
 }
 
+//for clearing every marker on screen before user search for new place
 function clearAllMarkers() {
     // Clear out the old markers.
     markers.forEach((marker) => {
