@@ -1,9 +1,8 @@
-
-#map { 
+/* #map {
   width: auto;
   position: relative;
-  height:100vh;
-  min-height:100vh;
+  height: 100vh;
+  min-height: 100vh;
 }
 
 html,
@@ -24,9 +23,18 @@ input {
   border: none;
   width: 300px auto;
 }
-
+#over-map {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 50px;
+  width: auto;
+  height: auto;
+  top: 10%;
+  left: 50%;
+  z-index: 99;
+}
 .color-change {
-  background-color: #8bc7d8;
+  background-image: url(bush.png);
   padding: 20px 0;
 }
 .center-it {
@@ -38,8 +46,13 @@ input {
   margin: auto 0;
   font-weight: 700;
   font-size: 30px;
+  color: white;
+  text-shadow: 2px 2px black;
 }
-
+.display-test {
+  z-index: 1000;
+  position: absolute;
+}
 .spacing-header {
   padding: 0;
 }
@@ -48,7 +61,9 @@ input {
   left: 0;
   bottom: 0;
   width: 100%;
-  color: black;
+  color: white;
+  text-shadow: 2px 2px black;
+  font-weight: 700;
   text-align: center;
   margin-bottom: 0;
   padding-top: 20px;
@@ -116,7 +131,7 @@ input {
   display: none;
 }
 /* Below is the sidebar main CSS, includes some bugs which I will need to work on tomorrow while implementing the map point pull I'm developing*/
-.grid-container {
+/* .grid-container {
   width: 100vw;
   margin: 0 auto;
   height: 99vh;
@@ -149,25 +164,133 @@ input {
 
 .connection-block {
   display: inline-block;
+} */
+
+/*Added position and width for responsiveness*/
+#map {
+  width: auto;
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Titillium Web;
+}
+header {
+  text-align: center;
+  padding: 0;
+  margin: auto 0;
+  font-weight: bold;
+  font-size: 50px;
+  color: black;
+  background-size: 395px;
+  background-color: lightblue;
+}
+footer {
+  width: 100%;
+  color: white;
+  text-shadow: 2px 2px black;
+  font-weight: 700;
+  text-align: center;
+  padding: 20px;
+  font-weight: 400;
+  background-color: lightblue;
+  margin-top: -6px;
+}
+#auto-input {
+  background-color: rgb(236, 237, 238);
+  padding: 8px;
+  width: 490px;
+}
+#over-map {
+  position: relative;
+  z-index: 99;
+}
+.display-test {
+  z-index: 1000;
+  position: absolute;
+}
+.spacing-header {
+  padding: 0;
+}
+.label2 {
+  position: absolute;
+  top: 150px;
+  left: 2%;
+  height: 100px;
+  width: 200px;
+  z-index: 99;
+  display: none;
+}
+/* Below is the sidebar main CSS, includes some bugs which I will need to work on tomorrow while implementing the map point pull I'm developing*/
+.grid-container {
+  width: 100vw;
+  height: 100vh;
+  display: inline-flex;
+  border: 2px solid rgba (0, 0, 0, 0.4);
+  transition: 1s ease;
+}
+.sidebar {
+  width: 30%;
+  height: 100%;
+  background-color: #efefef;
+  transition: 1s ease;
+  position: relative;
+  background-image: url("https://cdn4.vectorstock.com/i/1000x1000/44/33/modern-electric-car-pattern-seamless-blue-vector-22534433.jpg");
+  background-repeat: repeat-y;
+  background-size: 1280px;
+}
+.main-content {
+  width: 100%;
+  height: 100%;
+  transition: 1s ease;
+}
+.main-content_large {
+  width: 90%;
+}
+.sidebar_small {
+  width: 10%;
+}
+#tglbutton {
+  position: absolute;
+  z-index: 99;
+  height: 40px;
+  width: 40px;
+  font-family: Titillium Web;
+  border-radius: 50%;
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.3);
+  left: 100%;
+  top: 2rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-#tglbutton{
-    position: absolute; 
-    z-index: 99;
-    border: none;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    font-family: Titillium Web; 
-    border-radius: 50%;
-    box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
-    left: 100%;
-    top: 2rem;
-    transform: translateX(-50%);
-    cursor: pointer;
+.connection-block {
+  display: inline-block;
 }
 
-  /* Darker background on mouse-over */
-  .btn:hover {
-    background-color: rgb(179, 215, 176);
-  }
+#tglbutton {
+  position: absolute;
+  z-index: 99;
+  border: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  font-family: Titillium Web;
+  border-radius: 50%;
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.3);
+  left: 100%;
+  top: 2rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: rgb(179, 215, 176);
+}
