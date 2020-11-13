@@ -7,7 +7,8 @@ let bounds;
 
 $(document).ready(function() {
 
-    getUsersCurrentLocation();
+    //get the user's current location
+    //getUsersCurrentLocation();
 
     //Search button click
     $("#search-button").on("click", function() {
@@ -28,6 +29,10 @@ function getCityDetails(cityName) {
     if(cityName === "") {
         hideAway();
     } else {
+
+        //clear all the markers from map when user search for new place
+        clearAllMarkers();
+
         var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
         console.log("city url " + queryUrl);
@@ -236,13 +241,6 @@ function initAutocomplete() {
         return;
       }
 
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
-      bounds  = new google.maps.LatLngBounds();
-
       //interate throw all the places
       places.forEach((place) => {
 
@@ -267,11 +265,24 @@ function getUsersCurrentLocation() {
     }
 
     function success(position) {
-        const latitude  = position.coords.latitude;
-        const longitude = position.coords.longitude;
 
-        console.log("Latitude: " + latitude + "Longitude: " + longitude);
-    }
+        console.log(position.coords.latitude + position.coords.longitude);
+        
+        var currentImg = {
+            url: "./Assets/Images/currentLocationMarker.png", // url
+            scaledSize: new google.maps.Size(40, 50), // scaled size
+            origin: new google.maps.Point(0,0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
+        
+        var userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        new google.maps.Marker({
+            position: userLatLng,
+            title: 'Me',
+            map: map,
+            icon: currentImg
+        });
+    }          
 }
 
 function hideAway(){
@@ -282,3 +293,11 @@ function hideAway(){
     });
 }
 
+function clearAllMarkers() {
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+        marker.setMap(null);
+    });
+    markers = [];
+    bounds  = new google.maps.LatLngBounds();    
+}
