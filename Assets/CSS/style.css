@@ -16,7 +16,6 @@ html, body {
     padding: 0;   
     font-family: Titillium Web; 
 }
-
 input {
     padding: 10px;
     margin-left: 10px;
@@ -29,7 +28,6 @@ input {
     width:300px auto;
 }
 
-/*Adjusted the over-map so it would move correctly*/
 #over-map {
     position: fixed;
     margin: 0 auto;
@@ -41,32 +39,24 @@ input {
     left: 50%;
     z-index: 99;
 }
-
 .color-change{
     background-color: #8bc7d8;
+    padding: 20px 0;
 }
-
-.nav-border{
-    border-bottom: 1px solid black;
-}
-
 .center-it { 
     margin-right: auto;
     margin-left: auto;
 }
-
 #logo { 
     padding:0;
     margin:auto 0;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .spacing-header{
-    padding-top:10px;
-    padding-bottom: 0;
+    padding:0;
 }
-
 .footer {
     position: fixed;
     left: 0;
@@ -75,10 +65,9 @@ input {
     color:black;
     text-align: center;
     margin-bottom: 0;
-    padding-top:5px;
-    padding-bottom: 5px;
-    border-top: 1px solid black;
-  }
+    padding-top:20px;
+    padding-bottom: 20px;
+}
 .p-footer{
     font-weight: 400;
 }

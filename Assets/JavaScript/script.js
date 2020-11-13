@@ -27,7 +27,7 @@ $(document).ready(function() {
 function getCityDetails(cityName) {
 
     if(cityName === "") {
-        hideAway();
+        hideAway("Please enter your city first!");
     } else {
 
         //clear all the markers from map when user search for new place
@@ -285,12 +285,13 @@ function getUsersCurrentLocation() {
     }          
 }
 
-function hideAway(){
+function hideAway(title){
     var hide = document.getElementById('hideaway');
     document.getElementById('hideaway').style.display='block';
     hide.addEventListener('click', function(){
-        hide.style.display="none";
+    hide.style.display="none";
     });
+    $("#alert-title").text(title);
 }
 
 
