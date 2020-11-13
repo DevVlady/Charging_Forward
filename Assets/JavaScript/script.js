@@ -149,52 +149,63 @@ function addMarkerToTheMap(station) {
 
     //get the infoWindow fo each marker
     var infoWindow = new google.maps.InfoWindow();
-    var connectionTitle = '';
-    var connectionVoltage = '';
-    var connectionAmps = '';
-    var connectionQuantity = '';
-    if(station.Connections.length > 0) {
-        station.Connections.forEach(connection => {
-            console.log("==============");
-            if(connection.CurrentType !== null) {
-                console.log("Current Title: ", connection.CurrentType.Title);
-                console.log("Current Description: ", connection.CurrentType.Description);
-                connectionTitle += connection.CurrentType.Title;
-            }
-            if(connection.Voltage !== null) {
-                console.log("Voltage: ", connection.Voltage);
-                connectionVoltage += connection.Voltage;
-            }
-            if(connection.Amps !== null) {
-                console.log("Amps: ", connection.Amps);
-                connectionAmps += connection.Amps
-            }
-            if(connection.Quantity !== null) {
-                console.log("Quantity:", connection.Quantity);
-                connectionQuantity += connection.Quantity;
-            }
-            console.log("==============");
-        });
-    }
-    console.log("connectionTitle: " + connectionTitle);
-    console.log("connectionVoltage: " + connectionVoltage);
-    console.log("connectionAmps: " + connectionAmps);
-    console.log("connectionQuantity: " + connectionQuantity);
-    const contentString =
+
+    let contentString =
     '<div id="content">' +
     '<div id="siteNotice">' +
-    "</div>" +
+    '</div>' +
     `<h1><b>${station.AddressInfo.Title}</b></h1>` +
     '<div id="bodyContent">' +
     `<p>${station.AddressInfo.AddressLine1}</p>` +
-    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>` +
-    `<p>Current Type: ${connectionTitle}</p>` +
-    `<p>Voltage: ${connectionVoltage}</p>` +
-    `<p>AMPS: ${connectionAmps}</p>` +
-    `<p>Quantity: ${connectionQuantity}</p>` +
-    "</div>" +
-    "</div>";
-    console.log(contentString);
+    `<p>Distance (in miles): ${station.AddressInfo.DistanceUnit}</p>`;
+
+    if(station.Connections.length > 0) {
+        if (station.Connections.length === 1) {
+            if(station.Connections[0].CurrentType.Title !== null) {
+                contentString += `<p>Current Type: ${station.Connections[0].CurrentType.Title}</p>`;
+            }
+        
+            if(station.Connections[0].Voltage !== null) {
+                contentString += `<p>Voltage: ${station.Connections[0].Voltage}</p>`; 
+            }
+        
+            if(station.Connections[0].Amps !== null) {
+                contentString += `<p>AMPS: ${station.Connections[0].Amps}</p>`;
+            }
+        
+            if(station.Connections[0].Quantity !== null) {
+                contentString += `<p>Quantity: ${station.Connections[0].Quantity}</p>`;
+            }        
+        } else {
+            station.Connections.forEach(connection => {
+                contentString += "<span class='connection-block'>";
+                if(connection.CurrentType !== null) {
+                    console.log("Current Title: ", connection.CurrentType.Title);
+                    console.log("Current Description: ", connection.CurrentType.Description);
+
+                    contentString += `<p>Current Type: ${connection.CurrentType.Title}</p>`;
+                }
+                if(connection.Voltage !== null) {
+                    console.log("Voltage: ", connection.Voltage);
+                    contentString += `<p>Voltage: ${connection.Voltage}</p>`; 
+                }
+                if(connection.Amps !== null) {
+                    console.log("Amps: ", connection.Amps);
+                    contentString += `<p>AMPS: ${connection.Amps}</p>`;
+                }
+                if(connection.Quantity !== null) {
+                    console.log("Quantity:", connection.Quantity);
+                    contentString += `<p>Quantity: ${connection.Quantity}</p>`;
+                }
+                contentString += "</span>";
+            });    
+        }
+    }
+        
+    contentString += '</div>' + '</div>';
+    
+    console.log("contentString" + contentString);
+
     //when marker is click fill out station details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
