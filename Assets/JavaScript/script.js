@@ -293,6 +293,16 @@ function hideAway(){
     });
 }
 
+
+// This applies the click event to the button, hopefully will work with the visual anomoly
+const sidebar = document.querySelector('.sidebar');
+const mainContent = document.querySelector('.main-content');
+
+document.querySelector('button').onclick = function () {
+    sidebar.classList.toggle('sidebar_small');
+    mainContent.classList.toggle('main-content_Large')
+}
+
 function clearAllMarkers() {
     // Clear out the old markers.
     markers.forEach((marker) => {
@@ -300,4 +310,5 @@ function clearAllMarkers() {
     });
     markers = [];
     bounds  = new google.maps.LatLngBounds();    
+
 }
