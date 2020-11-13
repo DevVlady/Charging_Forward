@@ -1,4 +1,4 @@
-  /*Added position and width for responsiveness*/
+
 #map { 
   width: auto;
   position: relative;
@@ -6,25 +6,56 @@
   min-height:100vh;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;   
-    font-family: Titillium Web; 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Titillium Web;
 }
 input {
-    padding: 10px;
-    margin-left: 10px;
-    padding-right: 100px;
+  padding: 10px;
+  margin-left: 10px;
+  padding-right: 100px;
 }
 
-#auto-input{
-    background-color:rgb(236, 237, 238);
-    border: none;
-    width:300px auto;
+#auto-input {
+  background-color: rgb(236, 237, 238);
+  border: none;
+  width: 300px auto;
 }
 
-#over-map {
+.color-change {
+  background-color: #8bc7d8;
+  padding: 20px 0;
+}
+.center-it {
+  margin-right: auto;
+  margin-left: auto;
+}
+#logo {
+  padding: 0;
+  margin: auto 0;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.spacing-header {
+  padding: 0;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: black;
+  text-align: center;
+  margin-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.p-footer {
+  font-weight: 400;
     position: relative;
     margin: 0 auto;
     margin-top: 50px;
@@ -76,22 +107,22 @@ input {
 }
 
 .label2 {
-    position: absolute;
-    top: 150px;
-    left: 2%;
-    height: 100px;
-    width: 200px;
-    z-index: 99;
-    display: none;
+  position: absolute;
+  top: 150px;
+  left: 2%;
+  height: 100px;
+  width: 200px;
+  z-index: 99;
+  display: none;
 }
 /* Below is the sidebar main CSS, includes some bugs which I will need to work on tomorrow while implementing the map point pull I'm developing*/
 .grid-container {
-    width: 100vw;
-    margin: 0 auto;
-    height: 99vh;
-    display: inline-flex;
-    border: 2px solid rgba (0, 0, 0, .4);
-    transition: 1s ease;
+  width: 100vw;
+  margin: 0 auto;
+  height: 99vh;
+  display: inline-flex;
+  border: 2px solid rgba (0, 0, 0, 0.4);
+  transition: 1s ease;
 }
 
 .sidebar {
@@ -103,17 +134,21 @@ input {
 }
 
 .main-content {
-    width: 100%;
-    height: 90.5%;
-    transition: 1s ease;
+  width: 100%;
+  height: 90.5%;
+  transition: 1s ease;
 }
 
 .main-content_large {
-    width: 90%;
+  width: 90%;
 }
 
 .sidebar_small {
-    width: 10%;
+  width: 10%;
+}
+
+.connection-block {
+  display: inline-block;
 }
 
 #tglbutton{
