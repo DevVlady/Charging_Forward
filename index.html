@@ -18,35 +18,39 @@
             <nav class="navbar nav-border color-change" role="navigation" aria-label="main navigation">
                 <div class="center-it">
                     <div class="navbar-item spacing-header">
-                        <h1 id = "logo">Charging Station Locator</h1>
+                        <h1 id = "logo">Get Charged!</h1>
                     </div>
                 </div>  
             </nav> 
     </header>
-<!-- Here I have added the div class for the container the sidebar and map live in so they are resonsive to one another-->
+
     <div class="grid-container">
-        <div class="sidebar">
+        
+        <div class="sidebar title">
             <button class="btn btn-primary" id="tglbutton" type="button" data-toggle="button" aria-pressed="false" autocomplete="off">LIST</button>
         </div>
+
+   
         <div class="main-content">
-        
-            <div id="map"></div>
-
-                <div id="over-map" class="field has-addons">
-                    <div class="control">
-                        <input type ="text" class="input" type="text" placeholder="Search City" id="auto-input">
-                    </div>
-                    <div class="control">
-                            <button class="button is-link has-background-info" id="search-button">Search</button>
-                    </div>
+            <div class="field has-addons display-test">
+                <div class="control">
+                    <input type="text" class="input" type="text" placeholder="Search City" id="auto-input">
                 </div>
+                 <div class="control">
+                    <button class="button is-link has-background-info" id="search-button">Search</button>
+                </div>
+            </div>     
+              
+        <div id="map"></div>
+        <div id="over-map"></div>
+            
 
-            <div id='hideaway' class="notification is-danger label2">
-                <button id="hide-not" class ="delete"></button>
-                <p>Please enter a city first!</p>
+        <div id='hideaway' class="notification is-danger label2">
+            <button id="hide-not" class ="delete"></button>
+            <p>Please enter a city first!</p>
+        </div>
         </div>
     </div>
-
 
     <div id='hideaway' class="notification is-danger label2">
         <button id="hide-not" class ="delete"></button>
@@ -54,7 +58,7 @@
     </div>
 
 
-    <footer class="footer color-change"><p class ="p-footer">Copyright &#169; Charging Station Locater</p></footer>
+    <footer class="footer color-change"><p class ="p-footer">Copyright &#169; Get Charged!</p></footer>
 
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
