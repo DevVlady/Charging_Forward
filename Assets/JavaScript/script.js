@@ -4,6 +4,7 @@ let longitude = "";
 let markers = [];
 let map;
 let bounds;
+var infoWindowObject = [];
 
 $(document).ready(function() {
 
@@ -209,10 +210,22 @@ function addMarkerToTheMap(station) {
     //when marker is click fill out station details in this infoWindow
     google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
+            closeOtherInfoWindow();
             infoWindow.setContent(contentString);
             infoWindow.open(map, marker);
+            infoWindowObject[0] = infoWindow;
         }
     })(marker));
+}
+
+function closeOtherInfoWindow() {
+    if (infoWindowObject.length > 0) {
+        infoWindowObject[0].set("marker", null);
+        /* and close it */
+        infoWindowObject[0].close();
+        /* blank the array */
+        infoWindowObject = [];
+    }
 }
 
 //This will display the map on our page using
