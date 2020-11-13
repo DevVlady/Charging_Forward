@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,32 +15,51 @@
 <body>
 
     <header>
-        <h1 id = "logo">GET CHARGED.....NOW!!!</h1>
+            <nav class="navbar nav-border color-change" role="navigation" aria-label="main navigation">
+                <div class="center-it">
+                    <div class="navbar-item spacing-header">
+                        <h1 id = "logo">Get Charged!</h1>
+                    </div>
+                </div>
+            </nav>
     </header>
 
     <div class="grid-container">
+
         <div class="sidebar title">
             <button class="btn btn-primary" id="tglbutton" type="button" data-toggle="button" aria-pressed="false" autocomplete="off">LIST</button>
         </div>
+
+
         <div class="main-content">
             <div class="field has-addons display-test">
                 <div class="control">
-                    <input type="text" type="text" placeholder="Search City" id="auto-input">
+                    <input type="text" class="input" type="text" placeholder="Search City" id="auto-input">
                 </div>
                  <div class="control">
                     <button class="button is-link has-background-info" id="search-button">Search</button>
                 </div>
             </div>
+
         <div id="map"></div>
         <div id="over-map"></div>
+
+
         <div id='hideaway' class="notification is-danger label2">
             <button id="hide-not" class ="delete"></button>
-            <p id ="alert-title"></p>
+            <p>Please enter a city first!</p>
         </div>
         </div>
     </div>
 
-    <footer>Copyright &#169; Get Charged!</footer>
+    <div id='hideaway' class="notification is-danger label2">
+        <button id="hide-not" class ="delete"></button>
+        <p id ="alert-title"></p>
+    </div>
+
+
+    <footer class="footer color-change"><p class ="p-footer">Copyright &#169; Get Charged!</p></footer>
+
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrgcunLFFPhiJF-MO0qFEcIKxG_djnvaw&callback=initAutocomplete&libraries=places&v=weekly"></script>

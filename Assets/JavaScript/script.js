@@ -180,18 +180,18 @@ function getContentString(station) {
             if(station.Connections[0].CurrentType.Title !== null) {
                 contentString += `<p>Current Type: ${station.Connections[0].CurrentType.Title}</p>`;
             }
-        
+
             if(station.Connections[0].Voltage !== null) {
-                contentString += `<p>Voltage: ${station.Connections[0].Voltage}</p>`; 
+                contentString += `<p>Voltage: ${station.Connections[0].Voltage}</p>`;
             }
-        
+
             if(station.Connections[0].Amps !== null) {
                 contentString += `<p>AMPS: ${station.Connections[0].Amps}</p>`;
             }
-        
+
             if(station.Connections[0].Quantity !== null) {
                 contentString += `<p>Quantity: ${station.Connections[0].Quantity}</p>`;
-            }        
+            }
         } else {
             station.Connections.forEach(connection => {
                 contentString += "<span class='connection-block'>";
@@ -203,7 +203,7 @@ function getContentString(station) {
                 }
                 if(connection.Voltage !== null) {
                     console.log("Voltage: ", connection.Voltage);
-                    contentString += `<p>Voltage: ${connection.Voltage}</p>`; 
+                    contentString += `<p>Voltage: ${connection.Voltage}</p>`;
                 }
                 if(connection.Amps !== null) {
                     console.log("Amps: ", connection.Amps);
@@ -214,10 +214,10 @@ function getContentString(station) {
                     contentString += `<p>Quantity: ${connection.Quantity}</p>`;
                 }
                 contentString += "</span>";
-            });    
+            });
         }
     }
-        
+
     contentString += '</div>' + '</div>';
     console.log("contentString" + contentString);
     return contentString;
@@ -297,14 +297,14 @@ function getUsersCurrentLocation() {
     function success(position) {
 
         console.log(position.coords.latitude + position.coords.longitude);
-        
+
         var currentImg = {
             url: "./Assets/Images/currentLocationMarker.png", // url
             scaledSize: new google.maps.Size(40, 50), // scaled size
             origin: new google.maps.Point(0,0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
         };
-        
+
         var userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         new google.maps.Marker({
             position: userLatLng,
@@ -312,7 +312,7 @@ function getUsersCurrentLocation() {
             map: map,
             icon: currentImg
         });
-    }          
+    }
 }
 
 function hideAway(title){
@@ -340,6 +340,6 @@ function clearAllMarkers() {
         marker.setMap(null);
     });
     markers = [];
-    bounds  = new google.maps.LatLngBounds();    
+    bounds  = new google.maps.LatLngBounds();
 
 }
