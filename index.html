@@ -23,23 +23,36 @@
                 </div>  
             </nav> 
     </header>
-   
-
-    <div id="map"></div>
-
-    <div id="over-map" class="field has-addons">
-        <div class="control">
-          <input type ="text" class="input" type="text" placeholder="Search City" id="auto-input">
+<!-- Here I have added the div class for the container the sidebar and map live in so they are resonsive to one another-->
+    <div class="grid-container">
+        <div class="sidebar">
+            <button class="btn btn-primary" id="tglbutton" type="button" data-toggle="button" aria-pressed="false" autocomplete="off">LIST</button>
         </div>
-        <div class="control">
-            <button class="button is-link has-background-info" id="search-button">Search</button>
+        <div class="main-content">
+        
+            <div id="map"></div>
+
+                <div id="over-map" class="field has-addons">
+                    <div class="control">
+                        <input type ="text" class="input" type="text" placeholder="Search City" id="auto-input">
+                    </div>
+                    <div class="control">
+                            <button class="button is-link has-background-info" id="search-button">Search</button>
+                    </div>
+                </div>
+
+            <div id='hideaway' class="notification is-danger label2">
+                <button id="hide-not" class ="delete"></button>
+                <p>Please enter a city first!</p>
         </div>
     </div>
+
 
     <div id='hideaway' class="notification is-danger label2">
         <button id="hide-not" class ="delete"></button>
         <p id ="alert-title"></p>
     </div>
+
 
     <footer class="footer color-change"><p class ="p-footer">Copyright &#169; Charging Station Locater</p></footer>
 
@@ -53,6 +66,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script src="./Assets/JavaScript/script.js"></script>
+
+</div>
+</div>
 
 </body>
 </html>
