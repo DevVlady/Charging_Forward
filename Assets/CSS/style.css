@@ -25,18 +25,6 @@ input {
   width: 300px auto;
 }
 
-#over-map {
-<<<<<<< HEAD
-  position: fixed;
-  margin: 0 auto;
-  margin-top: 50px;
-
-  width: auto;
-  height: auto;
-  top: 10%;
-  left: 50%;
-  z-index: 99;
-}
 .color-change {
   background-color: #8bc7d8;
   padding: 20px 0;
@@ -68,7 +56,6 @@ input {
 }
 .p-footer {
   font-weight: 400;
-=======
     position: relative;
     margin: 0 auto;
     margin-top: 50px;
@@ -117,7 +104,6 @@ input {
 }
 .p-footer{
     font-weight: 400;
->>>>>>> aa75eb2774b70579ddbd97b5cbad16f27af96f7f
 }
 
 .label2 {
@@ -140,19 +126,11 @@ input {
 }
 
 .sidebar {
-<<<<<<< HEAD
-  width: 30%;
-  height: 100%;
-  background-color: rgba(5, 150, 182, 0.3);
-  transition: 1s ease;
-  position: relative;
-=======
     width: 30%;
     height: 100%;
     background-color: #EFEFEF; 
     transition: 1s ease;
     position: relative;
->>>>>>> aa75eb2774b70579ddbd97b5cbad16f27af96f7f
 }
 
 .main-content {
@@ -169,22 +147,27 @@ input {
   width: 10%;
 }
 
-#tglbutton {
-  position: absolute;
-  z-index: 99;
-  border: none;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  font-family: Titillium Web;
-  border-radius: 50%;
-  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.3);
-  left: 100%;
-  top: 2rem;
-  transform: translateX(-50%);
-  cursor: pointer;
-}
-
 .connection-block {
   display: inline-block;
 }
+
+#tglbutton{
+    position: absolute; 
+    z-index: 99;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    font-family: Titillium Web; 
+    border-radius: 50%;
+    box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
+    left: 100%;
+    top: 2rem;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+  /* Darker background on mouse-over */
+  .btn:hover {
+    background-color: rgb(179, 215, 176);
+  }
