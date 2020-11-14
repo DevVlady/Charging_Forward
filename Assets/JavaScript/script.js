@@ -68,7 +68,7 @@ function getStations(latitude, longitude) {
     if(latitude === "" || longitude === "") {
         alert("Please type address to get station information");
     } else {
-        var queryUrl = "https://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=20&latitude=" + latitude + "&longitude=" + longitude;
+        var queryUrl = "https://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
 
         console.log("queryUrl " + queryUrl);
 
@@ -81,18 +81,17 @@ function getStations(latitude, longitude) {
                 // console.log("Station: ", station);
 
                 if(station.AddressInfo !== null) {
-                    console.log("--------------------------------------");
-                    console.log("Station Title:", station.AddressInfo.Title);
-                    console.log("Address:", station.AddressInfo.AddressLine1);
-                    console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
-                    console.log("Latitude: ", station.AddressInfo.Latitude);
-                    console.log("Longitude: ", station.AddressInfo.Longitude);
-                    console.log("--------------------------------------");
+                    // console.log("--------------------------------------");
+                    // console.log("Station Title:", station.AddressInfo.Title);
+                    // console.log("Address:", station.AddressInfo.AddressLine1);
+                    // console.log("Distance (in mile):", station.AddressInfo.DistanceUnit);
+                    // console.log("Latitude: ", station.AddressInfo.Latitude);
+                    // console.log("Longitude: ", station.AddressInfo.Longitude);
+                    // console.log("--------------------------------------");
 
                     //pass the station data to create the marker on map to the addMarkerToTheMap function
                     addMarkerToTheMap(station);
                 }
-                console.log("Connections:", station.Connections);
             });
 
             //it'll cover all the markers
@@ -177,7 +176,7 @@ function getContentString(station) {
 
     if(station.Connections.length > 0) {
         if (station.Connections.length === 1) {
-            if(station.Connections[0].CurrentType.Title !== null) {
+            if(station.Connections[0].CurrentType !== null && station.Connections[0].CurrentType.Title !== null) {
                 contentString += `<p>Current Type: ${station.Connections[0].CurrentType.Title}</p>`;
             }
 
@@ -195,9 +194,8 @@ function getContentString(station) {
         } else {
             station.Connections.forEach(connection => {
                 contentString += "<span class='connection-block'>";
-                if(connection.CurrentType !== null) {
+                if(connection.CurrentType !== null && connection.CurrentType.Title !== null) {
                     console.log("Current Title: ", connection.CurrentType.Title);
-                    console.log("Current Description: ", connection.CurrentType.Description);
 
                     contentString += `<p>Current Type: ${connection.CurrentType.Title}</p>`;
                 }
@@ -219,7 +217,6 @@ function getContentString(station) {
     }
 
     contentString += '</div>' + '</div>';
-    console.log("contentString" + contentString);
     return contentString;
 }
 
