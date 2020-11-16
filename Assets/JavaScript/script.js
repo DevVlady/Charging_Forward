@@ -68,7 +68,7 @@ function getStations(latitude, longitude) {
     if(latitude === "" || longitude === "") {
         alert("Please type address to get station information");
     } else {
-        var queryUrl = "https://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
+        var queryUrl = "http://api.openchargemap.io/v3/poi/?output=json&distance=10&distanceunit=Miles&maxresults=10&latitude=" + latitude + "&longitude=" + longitude;
 
         console.log("queryUrl " + queryUrl);
 
