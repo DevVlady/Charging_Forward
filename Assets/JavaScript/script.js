@@ -5,6 +5,7 @@ let markers = [];
 let map;
 let bounds;
 var infoWindowObject = [];
+var apiKey = process.env.API_KEY;
 
 $(document).ready(function() {
 
@@ -34,7 +35,7 @@ function getCityDetails(cityName) {
         //clear all the markers from map when user search for new place
         clearAllMarkers();
 
-        var queryUrl = "http://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
+        var queryUrl = `http://open.mapquestapi.com/geocoding/v1/address?key=${apiKey}=${cityName}`;
 
         console.log("city url " + queryUrl);
 
