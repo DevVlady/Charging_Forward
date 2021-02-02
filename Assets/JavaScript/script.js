@@ -35,7 +35,7 @@ function getCityDetails(cityName) {
         //clear all the markers from map when user search for new place
         clearAllMarkers();
 
-        var queryUrl = `http://open.mapquestapi.com/geocoding/v1/address?key=${apiKey}=${cityName}`;
+        var queryUrl = "https://open.mapquestapi.com/geocoding/v1/address?key=wraegWcAhDtVMxIGqitPmixrOzkRkRoA&location=" + cityName;
 
         console.log("city url " + queryUrl);
 
