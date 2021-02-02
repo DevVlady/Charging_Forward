@@ -23,7 +23,7 @@ header {
   text-shadow: 2px 2px black;
   background-size: 395px;
   background-color: lightblue;
- 
+
 
 }
 footer {
@@ -137,7 +137,7 @@ footer {
     padding: 0;
     margin: 0;
   }
-  
+
   #myUL li a {
     border: 1px solid #ddd;
     margin-top: -1px; /* Prevent double borders */
@@ -149,7 +149,7 @@ footer {
     color: black;
     display: block;
   }
-  
+
   #myUL li a:hover:not(.header) {
     background-color: #eee;
   }

@@ -5,6 +5,7 @@ let markers = [];
 let map;
 let bounds;
 var infoWindowObject = [];
+var apiKey = process.env.API_KEY;
 
 $(document).ready(function() {
 
@@ -358,4 +359,5 @@ function myFunction() {
         }
     }
 }
+
 
